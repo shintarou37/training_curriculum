@@ -3,8 +3,12 @@ class CalendarsController < ApplicationController
 
   # １週間のカレンダーと予定が表示されるページ
   def index
+
     getweek
     # binding.pry
+
+    get_week 
+
     @plan = Plan.new
   end
 
@@ -21,7 +25,11 @@ class CalendarsController < ApplicationController
     params.require(:plan).permit(:date, :plan)
   end
 
+
   def getweek
+=======
+  def get_week
+
     wdays = ['(日)','(月)','(火)','(水)','(木)','(金)','(土)']
     
    
@@ -41,6 +49,7 @@ class CalendarsController < ApplicationController
       plan = plans.map do |plan|
         today_plans.push(plan.plan) if plan.date == @todays_date + x
       end
+
       wday_num = Date.today.wday + x
       # wday_num 
       if wday_num  > 6
@@ -48,6 +57,9 @@ class CalendarsController < ApplicationController
       end
 
       days = { month: (@todays_date + x).month, date: (@todays_date+x).day, plans: today_plans, wday: wdays[wday_num]}
+
+      days = { month: (@todays_date + x).month, date: (@todays_date+x).day, plans: today_plans}
+
       @week_days.push(days)
     end
 
